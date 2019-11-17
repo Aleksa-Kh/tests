@@ -88,7 +88,6 @@ import SumSimple from './components/SumSimple.vue'
 export default {
   name: 'TestTasks',
   components: {
-    // "SumSimple": () => import('./components/SumSimple.vue'), // арифметические операции
     SumSimple,
   },
   data(){
