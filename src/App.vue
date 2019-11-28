@@ -65,7 +65,7 @@
                 <div class="row">
 
                   <div class="col">Выполнено верно:</div>
-                  <div class="col">{{value.rightTasks}} ({{(value.rightTasks/value.totalTasks*100)}}%)</div>
+                  <div class="col">{{value.rightTasks}} ({{Math.round(value.rightTasks/value.totalTasks*100)}}%)</div>
 
                 </div>
 
@@ -95,7 +95,7 @@ export default {
       testTitle: "Математика",
       taskCount: 20, // количество заданий в тесте
       showQuestionTaskCount: true, // показать диалог выбора количества заданий
-      arrTaskCount: [10, 20, 30], // количество заданий для диалога выбора
+      arrTaskCount: [5, 10, 20, 30], // количество заданий для диалога выбора
       taskThemes: { // темы заданий
         'Summ': {
           isEnabled: true, // использовать в тесте

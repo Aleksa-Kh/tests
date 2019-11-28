@@ -2,8 +2,9 @@
     <div class="container">
         <div class="row">
             <div class="col-6 task-view">{{ numFirst }} {{ sign }} {{ numSecond }} = </div>
-            <div class="col-4">
-                <b-form-input id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" autofocus autocomplete="off">
+            <div class="col-3">
+                <b-form-input id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" type="number"
+                    autofocus autocomplete="off">
                 </b-form-input>
             </div>
         </div>
@@ -43,7 +44,7 @@ export default {
                     result = this.numFirst + this.numSecond;
                 break;
             }
-            this.$emit('checkTask', { value: ((+this.userResult === result) ? true : false)});
+            this.$emit('checkTask', { value: ((this.userResult != "" && +this.userResult === result) ? true : false)});
             this.newTask();
         },
         newTask(lim = 10, sign = "+", numFirst, numSecond) {
@@ -81,5 +82,10 @@ export default {
 }
 .task-view {
     text-align: right;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 </style>
