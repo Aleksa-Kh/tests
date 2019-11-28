@@ -72,8 +72,7 @@ export default {
 
 <style scoped>
 .row {
-    margin-bottom: 2em;
-    margin-top: 1em;
+    padding: 0.5rem 0;
 }
 .task-view, #input-valid {
     font-size: 200%;

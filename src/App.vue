@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="container">
+    <div id="app" class="container-fluid">
 
         <nav class="navbar navbar-light bg-light">
           <span class="navbar-text">
@@ -9,11 +9,11 @@
 
         <main v-if="showQuestionTaskCount" class="row">
 
-          <div class="col"><b-button variant="outline-info" v-on:click="showTasks(15)">15 заданий</b-button></div>
-          <div class="col"><b-button variant="outline-info" v-on:click="showTasks(25)">25 заданий</b-button></div>
-          <div class="col"><b-button variant="outline-info" v-on:click="showTasks(30)">30 заданий</b-button></div>
-          <div class="col"><b-button variant="outline-info" v-on:click="showTasks(40)">40 заданий</b-button></div>
-            
+          <h3 class="col-12">Выберите количество заданий:</h3>
+          <div v-for="count in arrTaskCount" class="col-lg-3 col-sm-4 col-xs-12 p-2">
+            <b-button class="show_task" variant="outline-info" v-on:click="showTasks(count)">{{count}}</b-button>
+          </div>
+
         </main>
   
         <main v-else class="row">
@@ -95,6 +95,7 @@ export default {
       testTitle: "Математика",
       taskCount: 20, // количество заданий в тесте
       showQuestionTaskCount: true, // показать диалог выбора количества заданий
+      arrTaskCount: [10, 20, 30], // количество заданий для диалога выбора
       taskThemes: { // темы заданий
         'Summ': {
           isEnabled: true, // использовать в тесте
@@ -103,7 +104,7 @@ export default {
           component: "SumSimple", // используемый компонент
           themeProps: {
             signs: "- +", // знаки операций, разделенные пробелом
-            limit: 15, // максимальная сумма цифр
+            limit: 20, // максимальная сумма цифр
           },
           totalTasks: 0, // всего заданий по этой теме (автоматически)
           rightTasks: 0, // всего верных заданий (автоматически)
@@ -150,16 +151,15 @@ export default {
       this.taskCount = count;
       this.showQuestionTaskCount = false;
     }
-  }
-  
+  },
 }
 </script>
 
 <style lang="scss">
 #app {
     background: url(./assets/bg1.png) 0 0 repeat;
-    height: 100vh;
-    min-width: 420px;
+    min-height: 100vh;
+    min-width: 350px;
 }
 .progress_figures {
     line-height: 40px;
@@ -174,5 +174,8 @@ export default {
 }
 .jumbotron {
   text-align: center;
+}
+.show_task {
+  width: 100%;
 }
 </style>
