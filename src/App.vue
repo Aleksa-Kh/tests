@@ -182,9 +182,10 @@ export default {
   computed: {
     arrResultsR: function(){ // массив результатов
       // TODO: сгенерировать разные темы в зависимости от процентов в настройках
+      let lessonKey = (this.$route.params.lesson ? this.$route.params.lesson : 'maths')
       let min = 0;
-      let max = this.lessons[this.$route.params.lesson].themes.length - 1;
-      let themes = Array.from({ length: this.taskCount }, v => this.lessons[this.$route.params.lesson].themes[Math.floor(Math.random() * (max - min + 1)) + min]);
+      let max = this.lessons[lessonKey].themes.length - 1;
+      let themes = Array.from({ length: this.taskCount }, v => this.lessons[lessonKey].themes[Math.floor(Math.random() * (max - min + 1)) + min]);
       let arr = [];
       for (let index = 0; index < this.taskCount; index++) {
         arr.push({ theme: themes[index], value: 0 });
