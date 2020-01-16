@@ -3,7 +3,7 @@
         <div class="row row-center">
             <div class="col task-view">
                 {{ tasks[taskKey].word.split('*')[0] }}
-                <span class="text-warning">{{userResult}}</span>
+                <span class="text-success">{{userResult}}</span>
                 {{ tasks[taskKey].word.split('*')[1] }}
             </div>
         </div>
@@ -14,7 +14,7 @@
                         id="btn-radios-3"
                         v-model="userResult"
                         :options="radioOptions"
-                        button-variant="outline-warning"
+                        button-variant="outline-success"
                         buttons
                     ></b-form-radio-group>
                 </b-form-group>
@@ -32,6 +32,7 @@
 import zhishi from '../tasks/zhishi.js'
 import chkchn from '../tasks/chkchn.js'
 import myagkyy from '../tasks/myagkyy.js'
+import slovslova from '../tasks/slovslova.js'
 
 export default {
     data() {
@@ -53,6 +54,8 @@ export default {
                     return chkchn;
                 case "myagkyy":
                     return myagkyy;
+                case "slovslova":
+                    return slovslova;
             
                 default:
                     return zhishi;

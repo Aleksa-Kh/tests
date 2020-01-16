@@ -14,6 +14,22 @@
             </b-navbar-nav>
           </b-collapse>
           
+          <b-navbar-nav v-if="Object.keys(arrTotalTaskCount.lessons).length>0">
+            <b-nav-item-dropdown right>
+              <template v-slot:button-content>
+                <span>{{arrTotalTaskCount.total.right + arrTotalTaskCount.total.error}} - </span>
+                  <span class="text-success" v-b-tooltip.hover title="Количество верно выполненных заданий">{{arrTotalTaskCount.total.right}}</span>
+                  /
+                  <span class="text-danger" v-b-tooltip.hover title="Количество неверно выполненных заданий">{{arrTotalTaskCount.total.error}}</span>
+              </template>
+              <b-dropdown-item href="#" v-for="(item, index) in arrTotalTaskCount.lessons" v-bind:key='index'>
+                {{lessons[index].title}} - 
+                <span class="text-success">{{item.right}}</span>
+                /
+                <span class="text-danger">{{item.error}}</span>
+              </b-dropdown-item>
+            </b-nav-item-dropdown>
+          </b-navbar-nav>
         </b-navbar>
 
         <main v-if="showQuestionTaskCount" class="row">
@@ -55,6 +71,8 @@
 
             <div class="jumbotron">
 
+              <b-button variant="outline-success" v-on:click="afterRepeatClick" class="btn_repeat_test">Повторить тестирование</b-button>
+
               <h3>Результаты:</h3>
 
               <div class="container alert" 
@@ -89,8 +107,6 @@
 
               </div>
 
-              <b-button variant="outline-success" v-on:click="afterRepeatClick">Повторить тестирование</b-button>
-
             </div>
 
           </div>
@@ -114,7 +130,7 @@ export default {
     return {
       taskCount: 20, // количество заданий в тесте
       showQuestionTaskCount: true, // показать диалог выбора количества заданий
-      arrTaskCount: [5, 10, 20, 30], // количество заданий для диалога выбора
+      arrTaskCount: [10, 30, 45, 60], // количество заданий для диалога выбора
       lessons: {
         maths: {
           title: "Математика",
@@ -124,15 +140,17 @@ export default {
           // TODO: сложение типа 36 + 30
           // TODO: м в дм, см в мм ...
           // TODO: вычисление выражений со скобками 10 + ( 7 - 2 )
+          // TODO: прибавление фиксированного числа 2+2+2+2+2, до 10 раз, с указанием номера
         },
         russian: {
           title: "Русский язык",
-          themes: ['ZhiShi', 'ChkChn', 'Myagkyy'],
+          themes: ['ZhiShi', 'ChkChn', 'Myagkyy', 'SlovSlova'],
           // TODO: словарные слова
           // TODO: большая буква в именах собственных
-          // TODO: проверяемая безударная гласная в корне слова
-          // TODO: парные согласные в слабой позиции
-          // 
+          // TODO: проверяемая безударная гласная в корне слова (уч стр 104)
+          // TODO: парные согласные в слабой позиции (уч. стр. 93)
+          // TODO: разделительный Ь (уч стр 114)
+          // TODO: слова с двойными согласными (уч стр 120)
         },
       },
       taskThemes: { // темы заданий
@@ -185,6 +203,18 @@ export default {
           rightTasks: 0, // всего верных заданий (автоматически)
           errorTasksValue: [], // неверные задания (автоматически)
         },
+        'SlovSlova': {
+          isEnabled: true, // использовать в тесте
+          persentTasks: 50, // количество заданий от общего, %
+          name: "Словарные слова", // название темы
+          component: "SelectLetter", // используемый компонент
+          themeProps: {
+            theme: "slovslova",
+          },
+          totalTasks: 0, // всего заданий по этой теме (автоматически)
+          rightTasks: 0, // всего верных заданий (автоматически)
+          errorTasksValue: [], // неверные задания (автоматически)
+        },
       },
       itemNumber: 1, // номер выведенного задания
     }
@@ -193,6 +223,9 @@ export default {
     arrResultsR: function(){ // массив результатов
       // TODO: сгенерировать разные темы в зависимости от процентов в настройках
       let lessonKey = (this.$route.params.lesson ? this.$route.params.lesson : 'maths')
+      if (!this.arrTotalTaskCount['lessons'][lessonKey]) {
+        this.arrTotalTaskCount['lessons'][lessonKey] = {'right': 0, 'error': 0};
+      }
       let min = 0;
       let max = this.lessons[lessonKey].themes.length - 1;
       let themes = Array.from({ length: this.taskCount }, v => this.lessons[lessonKey].themes[Math.floor(Math.random() * (max - min + 1)) + min]);
@@ -201,17 +234,36 @@ export default {
         arr.push({ theme: themes[index], value: 0 });
       }
       return arr;
-    }
+    },
+    arrTotalTaskCount: function(){
+      let arr = {
+        'total': {'right': 0, 'error': 0},
+        'lessons': {
+        }
+      };
+
+      return arr;
+    },
   },
   methods: {
     checkTaskHandler (item) {
       this.taskThemes[this.arrResultsR[this.itemNumber - 1].theme].totalTasks++;
+
+      let lessonKey = (this.$route.params.lesson ? this.$route.params.lesson : 'maths')
+      if (!this.arrTotalTaskCount['lessons'][lessonKey]) {
+        this.arrTotalTaskCount['lessons'][lessonKey] = {'right': 0, 'error': 0};
+      }
+
       if (item.value == true) {
         this.arrResultsR[this.itemNumber - 1].value = 1;
+        this.arrTotalTaskCount['lessons'][lessonKey]['right'] += 1;
+        this.arrTotalTaskCount['total']['right'] += 1;
         this.taskThemes[this.arrResultsR[this.itemNumber - 1].theme].rightTasks ++;
       }
       else {
         this.arrResultsR[this.itemNumber - 1].value = 2;
+        this.arrTotalTaskCount['lessons'][lessonKey]['error'] += 1;
+        this.arrTotalTaskCount['total']['error'] += 1;
         if (item.taskValue) {
           this.taskThemes[this.arrResultsR[this.itemNumber - 1].theme].errorTasksValue.push(item.taskValue);
         }
@@ -263,5 +315,8 @@ export default {
 }
 .router-link-active {
   font-weight: 700;
+}
+.btn_repeat_test {
+  margin-bottom: 5%;
 }
 </style>
