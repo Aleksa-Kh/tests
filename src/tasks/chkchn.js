@@ -26,7 +26,6 @@ module.exports = [
     { word: "ве*ый", correct: "чн", all: [ "чьн" ] },
     { word: "ску*ый", correct: "чн", all: [ "чьн" ] },
     { word: "встре*ый", correct: "чн", all: [ "чьн" ] },
-    { word: "но*ой", correct: "чн", all: [ "чьн" ] },
     { word: "да*ый", correct: "чн", all: [ "чьн" ] },
     { word: "четвери*ый", correct: "чн", all: [ "чьн" ] },
 ]

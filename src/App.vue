@@ -7,7 +7,8 @@
 
           <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-              <b-nav-item v-for="(value, index) in lessons" v-bind:key="index" :to="{name: 'tasklesson', params: { lesson: index }}">
+              <b-nav-item v-for="(value, index) in lessons" v-bind:key="index" v-on:click="afterRepeatClick"
+              :to="{name: 'tasklesson', params: { lesson: index }}">
                 {{value.title}}
               </b-nav-item>
               
@@ -145,7 +146,6 @@ export default {
         russian: {
           title: "Русский язык",
           themes: ['ZhiShi', 'ChkChn', 'Myagkyy', 'SlovSlova'],
-          // TODO: словарные слова
           // TODO: большая буква в именах собственных
           // TODO: проверяемая безударная гласная в корне слова (уч стр 104)
           // TODO: парные согласные в слабой позиции (уч. стр. 93)
