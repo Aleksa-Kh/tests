@@ -47,9 +47,12 @@
           <div v-if="itemNumber <= taskCount" class="col" >
 
             <div class="progress_figures">
-              <p v-for="(item, index) in arrResultsR" v-bind:key="index" class="progress_circle" 
-                  :class="{'bg-success': item.value == 1, 'bg-danger': item.value == 2}">
-                  {{index + 1}}
+              <div v-if="typeProgressBar==2"><i>Выполнено {{itemNumber-1}} из {{taskCount}} заданий.</i></div>
+              <p v-for="(item, index) in arrResultsR" v-bind:key="index"
+                :class="{'bg-success': item.value == 1, 'bg-danger': item.value == 2,
+                        'progress_circle': typeProgressBar == 1, 'progress_line': typeProgressBar == 2}" 
+                :style="{'width': progressBarWidth}">
+                <span v-if="typeProgressBar==1">{{index+1}}</span>
               </p>
             </div>
 
@@ -131,6 +134,7 @@ export default {
     return {
       taskCount: 20, // количество заданий в тесте
       showQuestionTaskCount: true, // показать диалог выбора количества заданий
+      typeProgressBar: 2, // 1 - circle, 2 - line
       arrTaskCount: [10, 30, 45, 60], // количество заданий для диалога выбора
       lessons: {
         maths: {
@@ -255,6 +259,22 @@ export default {
 
       return arr;
     },
+    progressBarWidth: function(){
+      let wh;
+      switch (this.typeProgressBar) {
+        case 1:
+          wh = '20px';
+          break;
+        case 2:
+          wh = 100 / this.taskCount;
+          wh = wh + '%';
+          break;
+      
+        default:
+          break;
+      }
+      return wh;
+    }
   },
   methods: {
     checkTaskHandler (item) {
@@ -307,16 +327,29 @@ export default {
     min-height: 100vh;
     min-width: 350px;
 }
-.progress_figures {
-    line-height: 40px;
-}
 .progress_circle {
-    width: 40px; 
-    height: 40px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 70%;
+    margin-bottom:0.4rem;
     background: #e9ecef;
     border-radius: 50%;
     display: inline-block;
     text-align: center;
+}
+@media screen and (max-width: 750px) {
+  .progress_figures {
+    margin-bottom:0.4rem;
+  }
+  .progress_circle {
+    margin-bottom:0.1rem;
+  }
+}
+.progress_line {
+  height: 20px;
+  margin-bottom:0.4rem;
+  background: #e9ecef;
+  display: inline-block;
 }
 .jumbotron {
   text-align: center;
