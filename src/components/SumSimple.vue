@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-6 task-view">{{ numFirst }} {{ sign }} {{ numSecond }} = </div>
+            <div class="col-7 task-view">{{ numFirst }} {{ sign }} {{ numSecond }} = </div>
             <div class="col-5 col-sm-3 col-md-2">
                 <b-form-input id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" type="number"
                     autofocus autocomplete="off">
