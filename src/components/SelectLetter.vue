@@ -33,6 +33,7 @@ import zhishi from '../tasks/zhishi.js'
 import chkchn from '../tasks/chkchn.js'
 import myagkyy from '../tasks/myagkyy.js'
 import slovslova from '../tasks/slovslova.js'
+import bezudglasn from '../tasks/bezudglasn.js'
 
 export default {
     data() {
@@ -56,6 +57,8 @@ export default {
                     return myagkyy;
                 case "slovslova":
                     return slovslova;
+                case "bezudglasn":
+                    return bezudglasn;
             
                 default:
                     return zhishi;

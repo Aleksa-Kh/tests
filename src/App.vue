@@ -145,9 +145,8 @@ export default {
         },
         russian: {
           title: "Русский язык",
-          themes: ['ZhiShi', 'ChkChn', 'Myagkyy', 'SlovSlova'],
+          themes: ['ZhiShi', 'ChkChn', 'Myagkyy', 'SlovSlova', 'BezudGlasn'],
           // TODO: большая буква в именах собственных
-          // TODO: проверяемая безударная гласная в корне слова (уч стр 104)
           // TODO: парные согласные в слабой позиции (уч. стр. 93)
           // TODO: разделительный Ь (уч стр 114)
           // TODO: слова с двойными согласными (уч стр 120)
@@ -210,6 +209,18 @@ export default {
           component: "SelectLetter", // используемый компонент
           themeProps: {
             theme: "slovslova",
+          },
+          totalTasks: 0, // всего заданий по этой теме (автоматически)
+          rightTasks: 0, // всего верных заданий (автоматически)
+          errorTasksValue: [], // неверные задания (автоматически)
+        },
+        'BezudGlasn': {
+          isEnabled: true, // использовать в тесте
+          persentTasks: 50, // количество заданий от общего, %
+          name: "Проверяемая безударная гласная в корне слова", // название темы
+          component: "SelectLetter", // используемый компонент
+          themeProps: {
+            theme: "bezudglasn",
           },
           totalTasks: 0, // всего заданий по этой теме (автоматически)
           rightTasks: 0, // всего верных заданий (автоматически)
