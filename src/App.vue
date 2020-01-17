@@ -139,7 +139,7 @@ export default {
       lessons: {
         maths: {
           title: "Математика",
-          themes: ['Summ'],
+          themes: ['Summ', 'MatemDict'],
           // TODO: сложение типа 30 + 4
           // TODO: сложение типа 36 + 4
           // TODO: сложение типа 36 + 30
@@ -165,6 +165,18 @@ export default {
           themeProps: {
             signs: "- +", // знаки операций, разделенные пробелом
             limit: 20, // максимальная сумма цифр
+          },
+          totalTasks: 0, // всего заданий по этой теме (автоматически)
+          rightTasks: 0, // всего верных заданий (автоматически)
+          errorTasksValue: [], // неверные задания (автоматически)
+        },
+        'MatemDict': {
+          isEnabled: true, // использовать в тесте
+          persentTasks: 50, // количество заданий от общего, %
+          name: "Арифметические операции. Выбор ответа", // название темы
+          component: "SelectLetter", // используемый компонент
+          themeProps: {
+            theme: "matemdict",
           },
           totalTasks: 0, // всего заданий по этой теме (автоматически)
           rightTasks: 0, // всего верных заданий (автоматически)
