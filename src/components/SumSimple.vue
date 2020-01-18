@@ -1,11 +1,11 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="col-7 task-view">{{ numFirst }} {{ sign }} {{ numSecond }} = </div>
-            <div class="col-5 col-sm-3 col-md-2">
-                <b-form-input id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" type="number"
+            <div class="task-view">
+                <span>{{ numFirst }} {{ sign }} {{ numSecond }} = </span>
+                <input id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" type="number"
                     autofocus autocomplete="off">
-                </b-form-input>
+                </input>
             </div>
         </div>
         <div class="row">
@@ -79,13 +79,25 @@ export default {
 .row {
     padding: 0.5rem 0;
 }
-.task-view, #input-valid {
+.task-view{
     font-size: 200%;
     font-weight: 700;
-    height: 100%;
+    margin: 0 auto;
+    
+}
+#input-valid {
+    width: 80px;
+    padding: 0.375rem 0.75rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 .task-view {
-    text-align: right;
+    /* text-align: right; */
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 

@@ -9,7 +9,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <b-form-group label="">
+                <b-form-group v-if="isShowSelect">
                     <b-form-radio-group
                         id="btn-radio"
                         v-model="userResult"
@@ -19,6 +19,9 @@
                         :stacked="isRadioStacked"
                     ></b-form-radio-group>
                 </b-form-group>
+                <b-form-input v-if="!isShowSelect" id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick"
+                    autofocus autocomplete="off">
+                </b-form-input>
             </div>
         </div>
         <div class="row">
@@ -83,6 +86,13 @@ export default {
             }
 
             return false;
+        },
+        isShowSelect() {
+            let isShow = true;
+            if (this.radioOptions.length < 2) {
+                isShow = false;
+            }
+            return isShow;
         }
     },
     methods: {
@@ -126,5 +136,11 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button { 
   -webkit-appearance: none; 
   margin: 0; 
+}
+#input-valid {
+    width: 80px;
+    font-size: 200%;
+    font-weight: 700;
+    margin: 0 auto;
 }
 </style>
