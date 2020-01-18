@@ -3,7 +3,7 @@
         <div class="row row-center">
             <div class="col" :class="{'task-view': tasks[taskKey].word.length < 13}">
                 {{ tasks[taskKey].word.substring(0, tasks[taskKey].word.indexOf('~')) }}
-                <span v-if="tasks[taskKey].word.includes('~')" class="text-success">{{userResult}}</span>
+                <span v-if="tasks[taskKey].word.includes('~')" class="text-success">{{(userResult?userResult:"?")}}</span>
                 {{ tasks[taskKey].word.substring(tasks[taskKey].word.indexOf('~')+1) }}
             </div>
         </div>
@@ -44,7 +44,7 @@ export default {
     data() {
         return {
             taskKey: 0,
-            userResult: "?",
+            userResult: "",
         }
     },
     props: ["themeProps", "itemNumber"],
@@ -100,7 +100,7 @@ export default {
             let min = 0;
             let max = this.tasks.length - 1;
             this.taskKey = Math.floor(Math.random() * (max - min + 1)) + min;
-            this.userResult = "?";
+            this.userResult = "";
         },
         afterMoreClick() {
             this.$emit('checkTask', { 

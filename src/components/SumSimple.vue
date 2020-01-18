@@ -1,11 +1,18 @@
 <template>
     <div class="container">
         <div class="row">
-            <div class="task-view">
-                <span>{{ numFirst }} {{ sign }} {{ numSecond }} = </span>
-                <input id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" type="number"
-                    autofocus autocomplete="off">
-                </input>
+            <div class="col">
+                <div :class="{'task-view': taskString.length < 13}">
+                    {{ taskString.substring(0, taskString.indexOf('~')) }}
+                    <span v-if="taskString.includes('~')" class="text-success">{{(userResult?userResult:"?")}}</span>
+                    {{ taskString.substring(taskString.indexOf('~')+1) }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <b-form-input class="task-view" id="input-valid" v-model="userResult" @keyup.enter="afterMoreClick" type="number"
+                    autofocus autocomplete="off"></b-form-input>
             </div>
         </div>
         <div class="row">
@@ -17,6 +24,8 @@
 </template>
 
 <script>
+import templates from '../tasks/_templates.js'
+
 export default {
     data() {
         return {
@@ -26,7 +35,42 @@ export default {
             userResult: "",
         }
     },
-    props: [ "themeProps" ],
+    props: [ "themeProps", "itemNumber" ],
+    computed: {
+        taskNumber() {
+            return this.itemNumber;
+        },
+        taskString() {
+            let mString = this.template.replace("[1]", this.numFirst).replace("[s]", this.sign).replace("[2]", this.numSecond);
+            return mString;
+        },
+        template() {
+            let temp = "[1] [s] [2] = ~";
+
+            if (this.themeProps.template && this.taskNumber % 2) {
+                let arTemplates = [];
+                switch (this.themeProps.template) {
+                    case "templates":
+                        arTemplates = templates;
+                
+                    default:
+                        arTemplates = templates;
+                }
+                let arNewTemplates = [temp];
+                let sign = this.sign;
+                arTemplates.forEach(function(item, index, array) {
+                    if (item.signs == sign) {
+                        arNewTemplates = arNewTemplates.concat(item.strings);
+                    }
+                });
+                let min = 0;
+                let max = arNewTemplates.length - 1;
+                temp = arNewTemplates[Math.floor(Math.random() * (max - min + 1)) + min];
+            }
+
+            return temp;
+        },
+    },
     methods: {
         afterMoreClick() {
             let result;
@@ -46,10 +90,9 @@ export default {
             }
             this.$emit('checkTask', { 
                 value: ((this.userResult != "" && +this.userResult === result) ? true : false),
-                taskValue: this.numFirst + " " + this.sign + " " + this.numSecond + " = " + 
-                    (this.userResult == "" ? "?" : this.userResult),
+                taskValue: '"' + this.taskString.replace("~", "[?]") + '"  Ответ: "' +
+                this.userResult + '"  Верный ответ: "' + result + '"',
             });
-            this.newTask();
         },
         newTask(lim = 10, sign = "+", numFirst, numSecond) {
             function randomNumber(min, max) {
@@ -72,6 +115,11 @@ export default {
     beforeMount() {
         this.newTask();
     },
+    watch: {
+        taskNumber: function(){
+            this.newTask();
+        }
+    },
 }
 </script>
 
@@ -85,19 +133,15 @@ export default {
     margin: 0 auto;
     
 }
+.taskString {
+    font-size: 50%;
+    font-weight: 300;
+}
 #input-valid {
     width: 80px;
-    padding: 0.375rem 0.75rem;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #ced4da;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-.task-view {
-    /* text-align: right; */
+    font-size: 200%;
+    font-weight: 700;
+    margin: 0 auto;
 }
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
