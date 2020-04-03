@@ -51,4 +51,13 @@ module.exports = [
     { word: "ру~кий язык", correct: "сс", all: [ "с", "з", "зз" ] },
     { word: "русский ~зык", correct: "я", all: [ "е", "и" ] },
     { word: "б~рёза", correct: "е", all: [ "и" ] },
+    { word: "в~рона", correct: "о", all: [ "а" ] },
+    { word: "п~нал", correct: "е", all: [ "и" ] },
+    { word: "к~рова", correct: "о", all: [ "а" ] },
+    { word: "м~локо", correct: "о", all: [ "а" ] },
+    { word: "мол~ко", correct: "о", all: [ "а" ] },
+    { word: "г~род", correct: "о", all: [ "а" ] },
+    { word: "х~рошо", correct: "о", all: [ "а" ] },
+    { word: "хор~шо", correct: "о", all: [ "а" ] },
+    { word: "л~пата", correct: "о", all: [ "а" ] }
 ]

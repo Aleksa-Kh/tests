@@ -11,10 +11,10 @@
               :to="{name: 'tasklesson', params: { lesson: index }}">
                 {{value.title}}
               </b-nav-item>
-              
+
             </b-navbar-nav>
           </b-collapse>
-          
+
           <b-navbar-nav v-if="Object.keys(arrTotalTaskCount.lessons).length>0">
             <b-nav-item-dropdown right>
               <template v-slot:button-content>
@@ -24,7 +24,7 @@
                   <span class="text-danger" v-b-tooltip.hover title="Количество неверно выполненных заданий">{{arrTotalTaskCount.total.error}}</span>
               </template>
               <b-dropdown-item href="#" v-for="(item, index) in arrTotalTaskCount.lessons" v-bind:key='index'>
-                {{lessons[index].title}} - 
+                {{lessons[index].title}} -
                 <span class="text-success">{{item.right}}</span>
                 /
                 <span class="text-danger">{{item.error}}</span>
@@ -41,7 +41,7 @@
           </div>
 
         </main>
-  
+
         <main v-else class="row">
 
           <div v-if="itemNumber <= taskCount" class="col" >
@@ -50,7 +50,7 @@
               <div v-if="typeProgressBar==2"><i>Выполнено {{itemNumber-1}} из {{taskCount}} заданий.</i></div>
               <p v-for="(item, index) in arrResultsR" v-bind:key="index"
                 :class="{'bg-success': item.value == 1, 'bg-danger': item.value == 2,
-                        'progress_circle': typeProgressBar == 1, 'progress_line': typeProgressBar == 2}" 
+                        'progress_circle': typeProgressBar == 1, 'progress_line': typeProgressBar == 2}"
                 :style="{'width': progressBarWidth}">
                 <span v-if="typeProgressBar==1">{{index+1}}</span>
               </p>
@@ -79,7 +79,7 @@
 
               <h3>Результаты:</h3>
 
-              <div class="container alert" 
+              <div class="container alert"
                 v-for="(value, name) in taskThemes" v-if="value.totalTasks>0" v-bind:key="name"
                 :class="{'alert-success' : (value.rightTasks/value.totalTasks*100) > 82,
                 'alert-warning' : ((value.rightTasks/value.totalTasks*100) > 50 && (value.rightTasks/value.totalTasks*100) <=82),
@@ -139,7 +139,8 @@ export default {
       lessons: {
         maths: {
           title: "Математика",
-          themes: ['Summ', 'MatemDict'],
+          // themes: ['Summ', 'Mult', 'MatemDict'],
+          themes: ['Summ', 'Mult'],
           // TODO: сложение типа 30 + 4
           // TODO: сложение типа 36 + 4
           // TODO: сложение типа 36 + 30
@@ -164,7 +165,21 @@ export default {
           component: "SumSimple", // используемый компонент
           themeProps: {
             signs: "- +", // знаки операций, разделенные пробелом
-            limit: 20, // максимальная сумма цифр
+            limit: 100, // максимальная сумма цифр
+            template: "templates", // использовать шаблон
+          },
+          totalTasks: 0, // всего заданий по этой теме (автоматически)
+          rightTasks: 0, // всего верных заданий (автоматически)
+          errorTasksValue: [], // неверные задания (автоматически)
+        },
+        'Mult': {
+          isEnabled: true, // использовать в тесте
+          persentTasks: 50, // количество заданий от общего, %
+          name: "Арифметические операции", // название темы
+          component: "SumSimple", // используемый компонент
+          themeProps: {
+            signs: "* /", // знаки операций, разделенные пробелом
+            limit: 3, // максимум таблицы умножения
             template: "templates", // использовать шаблон
           },
           totalTasks: 0, // всего заданий по этой теме (автоматически)
@@ -282,7 +297,7 @@ export default {
           wh = 100 / this.taskCount;
           wh = wh + '%';
           break;
-      
+
         default:
           break;
       }
